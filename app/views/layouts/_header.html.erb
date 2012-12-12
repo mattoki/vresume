@@ -1,0 +1,27 @@
+<header>
+	<nav>
+		<li class="fbconnected"><%= link_to "Home", root_path %></li>
+		<% if member_signed_in? %>
+			<li class="fbconnected"><%= link_to "Sign out", destroy_member_session_path, :method => :delete %></li>
+		<% else %>
+			<!--<li><%= link_to "Sign in", new_member_session_path %></li>
+			<li><%= link_to "Sign up", new_member_registration_path %></li>-->
+		<% end %>
+	</nav>
+	<div>
+		<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |lf| %>
+		  <div><%= lf.label :email %><br />
+		  <%= lf.email_field :email %></div>
+
+		  <div><%= lf.label :password %><br />
+		  <%= lf.password_field :password %></div>
+
+		  <% if devise_mapping.rememberable? -%>
+		    <div><%= lf.check_box :remember_me %> <%= lf.label :remember_me %></div>
+		  <% end %>
+
+		  <div><%= lf.submit "Sign in" %></div>
+		  <fb:login-button autologoutlink='true' scope='email'></fb:login-button>
+		<% end %>
+	</div>
+</header>

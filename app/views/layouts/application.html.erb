@@ -3,12 +3,77 @@
 <head>
   <title>Vresume</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<!-- Initialize FB Login -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '147751898685696', // App ID
+      channelUrl : '//test.mattokimura.com/channel.php', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+    
+    FB.getLoginStatus(function(repsonse) {
+		if (response.status === 'connected') {
+			displayProfile();
+			console.log('login status: connected');
+		} else if (response.status === 'not_authorized') {
+			displayProfile();
+			console.log('login status: not_authorized');
+		} else {
+			hideProfile();
+			console.log('login status: not connected to FB');
+		}
+	}, true);
+    
+  	/* FB.Event.subscribe('auth.login', function(response) {
+    	if (response.status === 'connected') {
+    		displayProfile();
+    	}
+   }); */
+    
+    FB.Event.subscribe('auth.statusChange', function(response) {
+    	console.log(response);
+		if (response.status === 'connected') {
+    		displayProfile();
+    		meFunc();
+    		console.log('status equals connected');
+    	} else if (response.authResponse === null) {
+			hideProfile();
+			console.log('response is null');
+		} else {
+			displayProfile();
+			console.log('user has not authorized the app');
+		}
+	});
+  };
 
-<%= yield %>
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
+<!-- End FB Login -->
 
+	<%= render 'layouts/header' %>
+
+	<div id="flash_container">
+		<p class="notice"><%= notice %></p>
+		<p class="alert"><%= alert %></p>
+	</div>
+
+	<%= yield %>
+
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "myfb" %>
 </body>
 </html>
