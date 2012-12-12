@@ -9,7 +9,13 @@ gem 'sqlite3-ruby', '1.3.3'
 gem 'sqlite3', '1.3.6'
 gem 'devise'
 
+group :production, :staging do
+  gem "pg"
+end
 
+group :development, :test do
+  gem "sqlite3-ruby", "~> 1.3.3", :require => "sqlite3"
+end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
