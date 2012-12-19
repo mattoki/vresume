@@ -21,7 +21,15 @@
 		  <% end %>
 
 		  <div><%= lf.submit "Sign in" %></div>
-		  <fb:login-button autologoutlink='true' scope='email'></fb:login-button>
+
+		  <%= link_to "Sign in with Facebook", member_omniauth_authorize_path(:facebook) %>
+
+		<% if member_signed_in? %>
+		  <div>Signed in as... <%= current_member.email %></div>
+		<% else %>
+		    not signed in
+		<% end %>
+
 		<% end %>
 	</div>
 </header>

@@ -5,7 +5,8 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'devise'
+gem 'devise', :git => "http://github.com/plataformatec/devise.git"
+gem 'omniauth-facebook'
 
 group :production, :staging do
   gem "pg"

@@ -1,6 +1,6 @@
 Vresume::Application.routes.draw do
   
-  devise_for :members
+  devise_for :members, :controllers => { :omniauth_callbacks => "members/omniauth_callbacks" }
   resources :videos
 
   root :to => "pages#home"
